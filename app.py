@@ -1,15 +1,18 @@
+import os
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from model.users import Users
 from model.users import db
+from dotenv import load_dotenv
 
 from form import RegisterForm
 
+load_dotenv()
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "your_secret_key_here"
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://postgres:Nopassword%4003@localhost/test"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+    "DATABASE_URL", "postgresql://postgres:Nopassword%4003@localhost/test"
 )
 
 loginmanager = LoginManager()
